@@ -48,7 +48,34 @@ export const useChatSessions = ({
   // Obtener chat activo
   const activeChat = chatSessions.find(chat => chat.id === activeChatId);
 
-  // Función para crear nuevo chat
+  // Función para crear el primer chat (sin registrar en security manager)
+  const createInitialChat = useCallback(() => {
+    // CRÍTICO: Limpiar completamente el estado de seguridad para el chat inicial
+    securityManager.current.forceReset();
+    
+    const newChatId = `chat_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const newChat: ChatSession = {
+      id: newChatId,
+      messages: [{
+        role: 'assistant',
+        content: '¡Hola! ¿En qué puedo ayudarte hoy?',
+        timestamp: Date.now(),
+        id: `welcome_${newChatId}`
+      }],
+      createdAt: Date.now(),
+      lastActivity: Date.now(),
+      title: 'Nueva conversación'
+    };
+
+    // NO registrar en security manager para el chat inicial
+    setChatSessions(prev => [newChat, ...prev]);
+    setActiveChatId(newChatId);
+    
+    // Asegurar que el estado de bloqueo esté limpio
+    setCreationBlock({ isBlocked: false, reason: '', cooldown: 0 });
+  }, []);
+
+  // Función para crear nuevo chat (con validaciones de seguridad)
   const createNewChat = useCallback(() => {
     const securityCheck = securityManager.current.canCreateNewChat(chatSessions);
     
@@ -84,6 +111,7 @@ export const useChatSessions = ({
       title: 'Nueva conversación'
     };
 
+    // SÍ registrar en security manager para chats creados por el usuario
     securityManager.current.recordChatCreation(newChatId);
     setChatSessions(prev => [newChat, ...prev]);
     setActiveChatId(newChatId);
@@ -156,13 +184,13 @@ export const useChatSessions = ({
         setActiveChatId(newActiveId);
         
         if (filtered.length === 0) {
-          setTimeout(createNewChat, 100);
+          setTimeout(createInitialChat, 100);
         }
       }
       
       return filtered;
     });
-  }, [activeChatId, createNewChat]);
+  }, [activeChatId, createNewChat, createInitialChat]);
 
   // Auto-limpieza de chats inactivos
   useEffect(() => {
@@ -176,7 +204,7 @@ export const useChatSessions = ({
             setActiveChatId(cleaned[0].id);
           } else if (cleaned.length === 0) {
             setActiveChatId(null);
-            setTimeout(createNewChat, 100);
+            setTimeout(createInitialChat, 100);
           }
         }
         
@@ -185,16 +213,16 @@ export const useChatSessions = ({
     }, 5 * 60 * 1000); // Cada 5 minutos
 
     return () => clearInterval(cleanupInterval);
-  }, [activeChatId, createNewChat]);
+  }, [activeChatId, createNewChat, createInitialChat]);
 
   // Inicializar primer chat
   useEffect(() => {
     if (chatSessions.length === 0 && isInitialized) {
       setTimeout(() => {
-        createNewChat();
+        createInitialChat();
       }, 100);
     }
-  }, [chatSessions.length, isInitialized, createNewChat]);
+  }, [chatSessions.length, isInitialized, createInitialChat]);
 
   // Cleanup al desmontar
   useEffect(() => {

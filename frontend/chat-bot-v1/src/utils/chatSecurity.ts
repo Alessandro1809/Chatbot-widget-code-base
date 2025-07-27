@@ -81,10 +81,15 @@ export class ChatSecurityManager {
     this.clearExpiredStates();
     
     // 1. Verificar límite de chats activos
-    const validChats = currentSessions.filter(chat => 
-      chat.messages.length > 1 || // Tiene mensajes del usuario
-      (now - chat.createdAt) < (5 * 60 * 1000) // O fue creado hace menos de 5 minutos
-    );
+    const validChats = currentSessions.filter(chat => {
+      // Contar mensajes reales del usuario (no solo del asistente)
+      const userMessages = chat.messages.filter(m => m.role === 'user');
+      
+      return (
+        userMessages.length > 0 || // Tiene al menos un mensaje del usuario
+        (now - chat.createdAt) < (5 * 60 * 1000) // O fue creado hace menos de 5 minutos
+      );
+    });
 
     if (validChats.length >= this.limits.maxActiveChats) {
       return {
@@ -182,10 +187,15 @@ export class ChatSecurityManager {
       entry => entry.timestamp > oneHourAgo
     );
 
-    const validChats = currentSessions.filter(chat => 
-      chat.messages.length > 1 || 
-      (now - chat.createdAt) < (5 * 60 * 1000)
-    );
+    const validChats = currentSessions.filter(chat => {
+      // Usar la misma lógica que en canCreateNewChat
+      const userMessages = chat.messages.filter(m => m.role === 'user');
+      
+      return (
+        userMessages.length > 0 || // Tiene al menos un mensaje del usuario
+        (now - chat.createdAt) < (5 * 60 * 1000) // O fue creado hace menos de 5 minutos
+      );
+    });
 
     const cooldownMs = this.limits.chatCreationCooldown * 1000;
     const timeSinceLastCreation = now - this.lastCreationTime;

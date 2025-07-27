@@ -35,40 +35,7 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({
   const [showChatList, setShowChatList] = useState(false);
   const [hasUserInteracted, setHasUserInteracted] = useState(false);
 
-  // Custom hooks
-  const {
-    chatSessions,
-    activeChatId,
-    activeChat,
-    creationBlock,
-    securityStatus,
-    createNewChat,
-    addMessageToActiveChat,
-    switchToChat,
-    deleteChat
-  } = useChatSessions({
-    maxActiveChats,
-    maxChatsPerHour,
-    chatCreationCooldown,
-    inactivityTimeout,
-    minMessagesForValidChat,
-    isInitialized: true // We'll update this after useChatApi
-  });
-
-  const {
-    cooldownTimer,
-    isBlocked,
-    startTimer,
-    setBlocked,
-    formatTime
-  } = useCooldownTimer({
-    onTimerComplete: (isInstanceBlock) => {
-      if (!isInstanceBlock) {
-        addMessageToActiveChat('assistant', '✅ ¡Perfecto! Ya podemos continuar nuestra conversación. ¿En qué más puedo ayudarte?');
-      }
-    }
-  });
-
+  // Custom hooks - First initialize the API to get the real isInitialized value
   const { 
     sendMessage, 
     connectionStatus, 
@@ -89,8 +56,45 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({
     },
     onInstanceLimitReached: (_, timeRemaining) => {
       if (!hasUserInteracted) return;
-      setBlocked(true);
-      startTimer(timeRemaining, true);
+      // This will be handled by the cooldown timer hook after it's initialized
+      setTimeout(() => {
+        setBlocked(true);
+        startTimer(timeRemaining, true);
+      }, 0);
+    }
+  });
+
+  // Now initialize chat sessions with the correct isInitialized value
+  const {
+    chatSessions,
+    activeChatId,
+    activeChat,
+    creationBlock,
+    securityStatus,
+    createNewChat,
+    addMessageToActiveChat,
+    switchToChat,
+    deleteChat
+  } = useChatSessions({
+    maxActiveChats,
+    maxChatsPerHour,
+    chatCreationCooldown,
+    inactivityTimeout,
+    minMessagesForValidChat,
+    isInitialized // Use the real value from useChatApi
+  });
+
+  const {
+    cooldownTimer,
+    isBlocked,
+    startTimer,
+    setBlocked,
+    formatTime
+  } = useCooldownTimer({
+    onTimerComplete: (isInstanceBlock) => {
+      if (!isInstanceBlock) {
+        addMessageToActiveChat('assistant', '✅ ¡Perfecto! Ya podemos continuar nuestra conversación. ¿En qué más puedo ayudarte?');
+      }
     }
   });
 
@@ -227,6 +231,7 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({
             onClose={() => setOpen(false)}
             formatTime={formatTime}
           />
+          
 
           {/* 🔥 Mostrar estado de seguridad si hay límites activos */}
           {!isMinimized && (creationBlock.isBlocked || securityStatus.activeChats >= securityStatus.maxActiveChats) && (
