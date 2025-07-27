@@ -22,8 +22,7 @@ export const useChatApi = ({
   availableServices,
   maxRetries = 3,
   onLimitWarning,
-  onCooldownStart,
-  onInstanceLimitReached
+  onCooldownStart
 }: UseChatApiProps) => {
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>(
     ConnectionStatus.CONNECTED

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplo de ChatWidget Embebido</title>
+    
+    <!-- Configuración opcional con meta tags -->
+    <meta name="chat-widget-api-url" content="https://api.ejemplo.com/chat">
+    <meta name="chat-widget-website-name" content="Mi Sitio Web">
+    <meta name="chat-widget-accent-color" content="#10B981">
+    <meta name="chat-widget-system-prompt" content="Eres un asistente útil para este sitio web de ejemplo.">
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .demo-section {
+            margin: 30px 0;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background: #fafafa;
+        }
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        .button {
+            background: #3B82F6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .button:hover {
+            background: #2563EB;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .status.success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #10b981;
+        }
+        .status.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #ef4444;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 ChatWidget - Ejemplo de Integración</h1>
+        <p>Esta página demuestra cómo integrar el ChatWidget en cualquier sitio web.</p>
+        
+        <div class="demo-section">
+            <h2>📋 Método 1: Inicialización Manual</h2>
+            <p>Usa JavaScript para inicializar el widget con configuración personalizada:</p>
+            <div class="code-block">
+&lt;script src="./dist/embed/chat-widget.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+    ChatWidget.init({
+        apiUrl: 'https://api.ejemplo.com/chat',
+        websiteName: 'Mi Sitio Web',
+        accentColor: '#10B981',
+        maxActiveChats: 3
+    });
+&lt;/script&gt;
+            </div>
+            <button class="button" onclick="initializeManual()">Inicializar Widget</button>
+            <div id="manual-status"></div>
+        </div>
+
+        <div class="demo-section">
+            <h2>🏷️ Método 2: Meta Tags (Auto-inicialización)</h2>
+            <p>El widget se inicializa automáticamente usando las meta tags en el &lt;head&gt;:</p>
+            <div class="code-block">
+&lt;meta name="chat-widget-api-url" content="https://api.ejemplo.com/chat"&gt;
+&lt;meta name="chat-widget-website-name" content="Mi Sitio Web"&gt;
+&lt;meta name="chat-widget-accent-color" content="#10B981"&gt;
+            </div>
+            <div class="status success">
+                ✅ Widget inicializado automáticamente con meta tags
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>🎨 Método 3: Configuración con Data Attributes</h2>
+            <p>Configuración directa en el script tag:</p>
+            <div class="code-block">
+&lt;script 
+    src="./dist/embed/chat-widget.js"
+    data-chat-widget-config='{"apiUrl":"https://api.ejemplo.com/chat","accentColor":"#8B5CF6"}'&gt;
+&lt;/script&gt;
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>⚙️ Control Programático</h2>
+            <p>Controla el widget dinámicamente:</p>
+            <button class="button" onclick="updateColor('#FF6B6B')">Color Rojo</button>
+            <button class="button" onclick="updateColor('#10B981')">Color Verde</button>
+            <button class="button" onclick="updateColor('#8B5CF6')">Color Púrpura</button>
+            <button class="button" onclick="destroyWidget()">Destruir Widget</button>
+            <div id="control-status"></div>
+        </div>
+
+        <div class="demo-section">
+            <h2>📊 Información del Widget</h2>
+            <p>Versión: <span id="widget-version">-</span></p>
+            <p>Estado: <span id="widget-status">-</span></p>
+            <button class="button" onclick="getWidgetInfo()">Obtener Info</button>
+        </div>
+
+        <div class="demo-section">
+            <h2>🔧 Configuración Avanzada</h2>
+            <div class="code-block">
+ChatWidget.init({
+    apiUrl: 'https://api.ejemplo.com/chat',
+    websiteName: 'Mi Empresa',
+    systemPrompt: 'Eres un asistente especializado...',
+    accentColor: '#3B82F6',
+    maxActiveChats: 5,
+    maxChatsPerHour: 10,
+    chatCreationCooldown: 60,
+    inactivityTimeout: 30,
+    availableServices: [
+        'Soporte técnico',
+        'Ventas',
+        'Información general'
+    ]
+});
+            </div>
+        </div>
+    </div>
+
+    <!-- ChatWidget Script -->
+    <script src="../dist/embed/chat-widget.js"></script>
+    
+    <script>
+        let currentWidget = null;
+
+        // Función para inicialización manual
+        function initializeManual() {
+            try {
+                if (currentWidget) {
+                    currentWidget.destroy();
+                }
+                
+                currentWidget = ChatWidget.init({
+                    apiUrl: 'https://api.ejemplo.com/chat',
+                    websiteName: 'Ejemplo Manual',
+                    accentColor: '#3B82F6',
+                    maxActiveChats: 3,
+                    systemPrompt: 'Soy un asistente de demostración para este ejemplo.'
+                });
+                
+                document.getElementById('manual-status').innerHTML = 
+                    '<div class="status success">✅ Widget inicializado manualmente</div>';
+            } catch (error) {
+                document.getElementById('manual-status').innerHTML = 
+                    `<div class="status error">❌ Error: ${error.message}</div>`;
+            }
+        }
+
+        // Función para actualizar color
+        function updateColor(color) {
+            try {
+                if (currentWidget) {
+                    currentWidget.updateConfig({ accentColor: color });
+                    document.getElementById('control-status').innerHTML = 
+                        `<div class="status success">✅ Color actualizado a ${color}</div>`;
+                } else {
+                    document.getElementById('control-status').innerHTML = 
+                        '<div class="status error">❌ Widget no inicializado</div>';
+                }
+            } catch (error) {
+                document.getElementById('control-status').innerHTML = 
+                    `<div class="status error">❌ Error: ${error.message}</div>`;
+            }
+        }
+
+        // Función para destruir widget
+        function destroyWidget() {
+            try {
+                if (currentWidget) {
+                    currentWidget.destroy();
+                    currentWidget = null;
+                    document.getElementById('control-status').innerHTML = 
+                        '<div class="status success">✅ Widget destruido</div>';
+                } else {
+                    document.getElementById('control-status').innerHTML = 
+                        '<div class="status error">❌ No hay widget para destruir</div>';
+                }
+            } catch (error) {
+                document.getElementById('control-status').innerHTML = 
+                    `<div class="status error">❌ Error: ${error.message}</div>`;
+            }
+        }
+
+        // Función para obtener información del widget
+        function getWidgetInfo() {
+            try {
+                const version = ChatWidget.version || 'No disponible';
+                const status = currentWidget ? 'Activo' : 'Inactivo';
+                
+                document.getElementById('widget-version').textContent = version;
+                document.getElementById('widget-status').textContent = status;
+            } catch (error) {
+                console.error('Error obteniendo info del widget:', error);
+            }
+        }
+
+        // Inicializar información al cargar
+        document.addEventListener('DOMContentLoaded', function() {
+            getWidgetInfo();
+            
+            // El widget ya se inicializa automáticamente con las meta tags
+            // pero guardamos la referencia para control programático
+            setTimeout(() => {
+                // Intentar obtener referencia del widget auto-inicializado
+                if (window.ChatWidget) {
+                    console.log('ChatWidget disponible globalmente');
+                }
+            }, 1000);
+        });
+
+        // Escuchar eventos del widget (si están implementados)
+        document.addEventListener('chatWidgetOpened', function(event) {
+            console.log('Widget abierto:', event);
+        });
+
+        document.addEventListener('chatWidgetClosed', function(event) {
+            console.log('Widget cerrado:', event);
+        });
+    </script>
+</body>
+</html>
