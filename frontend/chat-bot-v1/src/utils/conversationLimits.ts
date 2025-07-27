@@ -49,8 +49,8 @@ export class ConversationManager {
       timeWindowMs: 5 * 60 * 1000,
       cooldownMs: 2 * 60 * 1000,
       warningThreshold: 7,
-      maxChatInstances: 3,
-      instanceInactivityMs: 30 * 60 * 1000,
+      maxChatInstances: 999, // 🔥 Valor alto por defecto
+      instanceInactivityMs: 999 * 60 * 1000, // 🔥 Valor alto por defecto
       ...limits
     };
 
@@ -85,7 +85,7 @@ export class ConversationManager {
         const now = Date.now();
         const cleanedInstances = this.cleanInactiveInstances(activeChatInstances, now);
 
-        // ✅ CLAVE: Verificar si los cooldowns realmente están activos
+        // 🔥 CRÍTICO: Verificar si los cooldowns realmente están activos
         const isInCooldown = parsed.isInCooldown && parsed.cooldownEndTime && now < parsed.cooldownEndTime;
         const instanceCooldownEnd = parsed.instanceCooldownEnd && now < parsed.instanceCooldownEnd ? parsed.instanceCooldownEnd : 0;
 
@@ -209,53 +209,15 @@ export class ConversationManager {
     }
   }
 
-  // ✅ MÉTODO CLAVE: Siempre permite abrir si hay espacio disponible
+  // 🔥 SIMPLIFICADO: Solo retorna información, no bloquea
   canOpenNewInstance(): InstanceCheckResult {
     const now = Date.now();
     
-    // ✅ Limpiar instancias inactivas PRIMERO
     const originalSize = this.state.activeChatInstances.size;
     this.state.activeChatInstances = this.cleanInactiveInstances(this.state.activeChatInstances, now);
     const cleanedInstances = originalSize - this.state.activeChatInstances.size;
 
-    // ✅ Verificar cooldown de instancias SOLO si realmente está activo
-    if (this.state.instanceCooldownEnd && now < this.state.instanceCooldownEnd) {
-      const timeRemaining = Math.ceil((this.state.instanceCooldownEnd - now) / 1000);
-      return {
-        allowed: false,
-        reason: 'instance_cooldown',
-        timeRemaining,
-        activeCount: this.state.activeChatInstances.size,
-        cleanedInstances
-      };
-    }
-
-    // ✅ Si el cooldown expiró, limpiarlo
-    if (this.state.instanceCooldownEnd && now >= this.state.instanceCooldownEnd) {
-      this.state.instanceCooldownEnd = 0;
-      this.saveStateDebounced();
-    }
-
-    // ✅ Contar instancias activas SIN incluir la actual
-    const currentActiveCount = this.state.activeChatInstances.size;
-    
-    // ✅ Solo verificar límite si NO está registrada esta instancia
-    if (!this.isRegistered && currentActiveCount >= this.limits.maxChatInstances) {
-      // ✅ Iniciar cooldown solo si realmente se excede
-      this.state.instanceCooldownEnd = now + this.limits.cooldownMs;
-      this.saveStateImmediate();
-      
-      const timeRemaining = Math.ceil(this.limits.cooldownMs / 1000);
-      return {
-        allowed: false,
-        reason: 'max_instances_exceeded',
-        timeRemaining,
-        activeCount: currentActiveCount,
-        cleanedInstances
-      };
-    }
-
-    // ✅ Si llegamos aquí, se puede abrir - registrar la instancia
+    // 🔥 Siempre permitir - ChatSecurityManager maneja los límites reales
     if (!this.isRegistered) {
       this.registerInstance();
     }

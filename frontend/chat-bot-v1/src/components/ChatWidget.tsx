@@ -9,7 +9,11 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({
   systemPrompt,
   websiteName,
   availableServices,
+  maxMessages = 50,
+  enablePersistence = true,
+  theme = 'light',
   accentColor = '#3B82F6',
+  // 🔥 Nuevas props de seguridad
   maxActiveChats = 3,
   maxChatsPerHour = 5,
   chatCreationCooldown = 30,
@@ -50,7 +54,9 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({
 
   const { 
     sendMessage, 
+    checkHealth, 
     resetConversationLimits, 
+    checkInstanceLimit,
     connectionStatus, 
     lastError,
     isInitialized
@@ -81,7 +87,7 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({
 
   // 🔥 Función mejorada para crear nuevo chat con validaciones
   const createNewChat = () => {
-    // Verificar si se puede crear un nuevo chat
+    // 🔥 SOLO usar ChatSecurityManager para validar creación de chats
     const securityCheck = securityManager.current.canCreateNewChat(chatSessions);
     
     if (!securityCheck.allowed) {
@@ -132,10 +138,11 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({
       clearInterval(timerRef.current);
     }
 
+    // 🔥 SOLO resetear límites de MENSAJES, no de instancias
     resetConversationLimits();
   };
 
-  // Timer para cooldown de creación
+  // 🔥 Timer para cooldown de creación
   const startCreationTimer = (seconds: number) => {
     if (creationTimerRef.current) {
       clearInterval(creationTimerRef.current);
@@ -154,7 +161,7 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({
     }, 1000);
   };
 
-  // Auto-limpieza de chats inactivos
+  // 🔥 Auto-limpieza de chats inactivos
   useEffect(() => {
     const cleanupInterval = setInterval(() => {
       setChatSessions(prev => {
@@ -179,12 +186,15 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({
     return () => clearInterval(cleanupInterval);
   }, [activeChatId]);
 
-  // Inicializar primer chat si no existe
+  // 🔥 Inicializar primer chat si no existe - MEJORADO
   useEffect(() => {
-    if (chatSessions.length === 0) {
-      createNewChat();
+    if (chatSessions.length === 0 && isInitialized) {
+      // 🔥 Pequeño delay para asegurar que todo esté inicializado
+      setTimeout(() => {
+        createNewChat();
+      }, 100);
     }
-  }, []);
+  }, [chatSessions.length, isInitialized]);
 
   const addMessageToActiveChat = (role: 'user' | 'assistant', content: string, options?: {
     isWarning?: boolean;
@@ -251,8 +261,12 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({
     };
   }, []);
 
-  // Resto del código del widget permanece igual...
-  // Solo agregar en el header, después del botón de lista de chats:
+  // 🔥 Scroll automático al final
+  useEffect(() => {
+    if (chatEndRef.current) {
+      chatEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages, typing]);
 
   const handleSendMessage = async () => {
     if (!input.trim() || typing || cooldownTimer > 0 || !activeChatId) return;
@@ -321,7 +335,9 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({
     });
   };
 
+  // 🔥 Función mejorada para abrir chat
   const handleOpenChat = () => {
+    // 🔥 Solo verificar si está inicializado, no otros límites
     if (!isInitialized) return;
     setOpen(true);
   };
@@ -600,7 +616,7 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({
             </div>
           )}
           
-          {/* Messages area - resto del código igual */}
+          {/* Messages area */}
           {!isMinimized && (
             <>
               <div className="flex-1 overflow-auto p-4 space-y-4 bg-gradient-to-b from-gray-50 to-white">
@@ -697,7 +713,7 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({
   );
 };
 
-// Función de manejo de errores (igual que antes)
+// Función de manejo de errores
 const getErrorMessage = (apiError: ApiError | null, error?: Error): { message: string; creditInfo?: CreditInfo } => {
   if (apiError?.type === 'QUOTA_EXCEEDED') {
     return {

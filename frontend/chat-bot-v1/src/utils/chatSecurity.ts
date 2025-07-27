@@ -1,4 +1,3 @@
-// utils/chatSecurity.ts
 import type { ChatSession, ChatLimits, ChatCreationHistory } from '../types/chat';
 
 export class ChatSecurityManager {
@@ -9,6 +8,8 @@ export class ChatSecurityManager {
   constructor(limits: ChatLimits) {
     this.limits = limits;
     this.loadFromStorage();
+    // 🔥 Limpiar estados expirados al inicializar
+    this.clearExpiredStates();
   }
 
   private loadFromStorage() {
@@ -43,6 +44,26 @@ export class ChatSecurityManager {
     }
   }
 
+  // 🔥 MÉTODO CRÍTICO: Limpiar estados expirados
+  clearExpiredStates(): number {
+    const now = Date.now();
+    
+    // Limpiar historial viejo
+    const oneHourAgo = now - (60 * 60 * 1000);
+    const originalLength = this.creationHistory.length;
+    this.creationHistory = this.creationHistory.filter(
+      entry => entry.timestamp > oneHourAgo
+    );
+    
+    // Si se limpiaron entradas, guardar
+    const cleaned = originalLength - this.creationHistory.length;
+    if (cleaned > 0) {
+      this.saveToStorage();
+    }
+    
+    return cleaned;
+  }
+
   canCreateNewChat(currentSessions: ChatSession[]): { 
     allowed: boolean; 
     reason?: string; 
@@ -50,6 +71,14 @@ export class ChatSecurityManager {
     details?: string;
   } {
     const now = Date.now();
+    
+    // 🔥 CRÍTICO: Si no hay chats, SIEMPRE permitir el primero
+    if (currentSessions.length === 0) {
+      return { allowed: true };
+    }
+    
+    // 🔥 Limpiar estados expirados antes de validar
+    this.clearExpiredStates();
     
     // 1. Verificar límite de chats activos
     const validChats = currentSessions.filter(chat => 
@@ -65,18 +94,20 @@ export class ChatSecurityManager {
       };
     }
 
-    // 2. Verificar cooldown entre creaciones
-    const timeSinceLastCreation = now - this.lastCreationTime;
-    const cooldownMs = this.limits.chatCreationCooldown * 1000;
-    
-    if (timeSinceLastCreation < cooldownMs) {
-      const timeRemaining = Math.ceil((cooldownMs - timeSinceLastCreation) / 1000);
-      return {
-        allowed: false,
-        reason: 'CREATION_COOLDOWN',
-        timeRemaining,
-        details: `Debes esperar ${timeRemaining} segundos antes de crear otro chat.`
-      };
+    // 2. Verificar cooldown entre creaciones (SOLO si ya se creó uno antes)
+    if (this.lastCreationTime > 0) {
+      const timeSinceLastCreation = now - this.lastCreationTime;
+      const cooldownMs = this.limits.chatCreationCooldown * 1000;
+      
+      if (timeSinceLastCreation < cooldownMs) {
+        const timeRemaining = Math.ceil((cooldownMs - timeSinceLastCreation) / 1000);
+        return {
+          allowed: false,
+          reason: 'CREATION_COOLDOWN',
+          timeRemaining,
+          details: `Debes esperar ${timeRemaining} segundos antes de crear otro chat.`
+        };
+      }
     }
 
     // 3. Verificar límite por hora
@@ -142,6 +173,10 @@ export class ChatSecurityManager {
 
   getSecurityStatus(currentSessions: ChatSession[]) {
     const now = Date.now();
+    
+    // 🔥 Limpiar estados expirados antes de calcular
+    this.clearExpiredStates();
+    
     const oneHourAgo = now - (60 * 60 * 1000);
     const recentCreations = this.creationHistory.filter(
       entry => entry.timestamp > oneHourAgo
@@ -154,7 +189,7 @@ export class ChatSecurityManager {
 
     const cooldownMs = this.limits.chatCreationCooldown * 1000;
     const timeSinceLastCreation = now - this.lastCreationTime;
-    const nextAllowedCreation = timeSinceLastCreation < cooldownMs 
+    const nextAllowedCreation = (this.lastCreationTime > 0 && timeSinceLastCreation < cooldownMs)
       ? this.lastCreationTime + cooldownMs 
       : undefined;
 
@@ -168,9 +203,27 @@ export class ChatSecurityManager {
     };
   }
 
+  // 🔥 MÉTODO MEJORADO: Reset completo
   forceReset() {
     this.creationHistory = [];
     this.lastCreationTime = 0;
     this.saveToStorage();
+    
+    // También limpiar el localStorage del ConversationManager
+    try {
+      localStorage.removeItem('chatWidget_conversationState');
+    } catch (error) {
+      console.warn('Error clearing conversation state:', error);
+    }
+  }
+
+  // 🔥 MÉTODO NUEVO: Debug info
+  getDebugInfo() {
+    return {
+      limits: this.limits,
+      creationHistory: this.creationHistory,
+      lastCreationTime: this.lastCreationTime,
+      expiredStatesCleared: this.clearExpiredStates()
+    };
   }
 }

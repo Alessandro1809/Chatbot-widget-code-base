@@ -42,8 +42,9 @@ export const useChatApi = ({
           timeWindowMs: 5 * 60 * 1000,
           cooldownMs: 2 * 60 * 1000,
           warningThreshold: 7,
-          maxChatInstances: 3,
-          instanceInactivityMs: 30 * 60 * 1000
+          // 🔥 CRÍTICO: Desactivar límites de instancias - ChatSecurityManager los maneja
+          maxChatInstances: 999,
+          instanceInactivityMs: 999 * 60 * 1000
         });
         setIsInitialized(true);
         return true;
@@ -72,14 +73,14 @@ export const useChatApi = ({
   const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
   const sendMessage = useCallback(async (
-  messages: Message[],
-  retryCount = 0
-): Promise<{ reply: string; warning?: string; creditInfo?: CreditInfo }> => {
+    messages: Message[],
+    retryCount = 0
+  ): Promise<{ reply: string; warning?: string; creditInfo?: CreditInfo }> => {
     if (!conversationManager.current) {
       throw new Error('ConversationManager not initialized');
     }
 
-   
+    // 🔥 SOLO verificar límites de MENSAJES, no de instancias
     const limitCheck = conversationManager.current.canSendMessage();
     
     if (!limitCheck.allowed) {
@@ -114,27 +115,27 @@ export const useChatApi = ({
       };
 
       const { data } = await axios.post(apiUrl, payload, {
-      timeout: 30000,
-      headers: {
-        'Content-Type': 'application/json'
+        timeout: 30000,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const { shouldWarn, messagesLeft } = conversationManager.current.recordMessage();
+      
+      setConnectionStatus(ConnectionStatus.CONNECTED);
+      
+      let warning: string | undefined;
+      if (shouldWarn) {
+        warning = conversationManager.current.getWarningMessage(messagesLeft);
+        onLimitWarning?.(warning);
       }
-    });
 
-    const { shouldWarn, messagesLeft } = conversationManager.current.recordMessage();
-    
-    setConnectionStatus(ConnectionStatus.CONNECTED);
-    
-    let warning: string | undefined;
-    if (shouldWarn) {
-      warning = conversationManager.current.getWarningMessage(messagesLeft);
-      onLimitWarning?.(warning);
-    }
-
-    return { 
-      reply: data.reply,
-      warning,
-      creditInfo: data.creditInfo // 🔥 Incluir info de créditos de la respuesta
-    };
+      return { 
+        reply: data.reply,
+        warning,
+        creditInfo: data.creditInfo
+      };
 
     } catch (error) {
       if ((error as Error).name === 'CooldownError') {
@@ -175,14 +176,9 @@ export const useChatApi = ({
     }
   }, []);
 
-  // 🔥 MÉTODO COMPLETAMENTE PASIVO - solo para información
+  // 🔥 SIMPLIFICAR - ChatSecurityManager maneja límites de instancias
   const checkInstanceLimit = useCallback((): InstanceCheckResult | null => {
-    if (!conversationManager.current) {
-      return { allowed: true, activeCount: 0 };
-    }
-    
-    // Solo retornar información, sin efectos secundarios
-    return conversationManager.current.canOpenNewInstance();
+    return { allowed: true, activeCount: 0 };
   }, []);
 
   const getDebugInfo = useCallback(() => {
@@ -207,7 +203,7 @@ export const useChatApi = ({
     checkInstanceLimit,
     connectionStatus,
     lastError,
-    canOpenChat,
+    canOpenChat: true, // 🔥 Siempre true - ChatSecurityManager maneja esto
     isInitialized,
     getDebugInfo,
     forceCleanup,
