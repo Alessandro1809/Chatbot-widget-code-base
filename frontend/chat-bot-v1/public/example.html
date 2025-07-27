@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ejemplo de AI Chat Widget</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1 {
+      color: #2563eb;
+      border-bottom: 2px solid #e5e7eb;
+      padding-bottom: 10px;
+    }
+    h2 {
+      color: #4b5563;
+      margin-top: 30px;
+    }
+    p {
+      margin-bottom: 16px;
+    }
+    .code-block {
+      background-color: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      padding: 15px;
+      margin: 20px 0;
+      overflow-x: auto;
+    }
+    .highlight {
+      background-color: #dbeafe;
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Demostración del AI Chat Widget</h1>
+  
+  <p>Esta página muestra cómo integrar el widget de chat con IA en cualquier sitio web utilizando un único script.</p>
+  
+  <h2>Características del Widget</h2>
+  <p>El widget de chat incluye las siguientes características:</p>
+  <ul>
+    <li>Interfaz moderna y minimalista</li>
+    <li>Extracción automática del contexto de la página</li>
+    <li>Soporte para prompts personalizados</li>
+    <li>Manejo de errores de conexión</li>
+    <li>Fácil integración</li>
+  </ul>
+  
+  <h2>Servicios que ofrecemos</h2>
+  <p>Nuestra empresa se especializa en:</p>
+  <ul>
+    <li>Desarrollo web moderno y responsive</li>
+    <li>Automatización avanzada con IA</li>
+    <li>Consultoría IT personalizada</li>
+  </ul>
+  
+  <h2>Cómo funciona</h2>
+  <p>El widget extrae automáticamente los encabezados (h1, h2) de esta página para proporcionar contexto a la IA. Prueba a preguntar sobre nuestros servicios o características del widget.</p>
+  
+  <div class="code-block">
+    <p>Para integrar este widget en tu propio sitio web, simplemente añade el siguiente código:</p>
+    <pre><code>&lt;script 
+  src="/assets/ai-chat-widget.js" 
+  data-chat-widget 
+  data-auto-init="true" 
+  data-api-url="http://localhost:3001/api/chat"
+  data-system-prompt="Eres un asistente amigable que ayuda a los usuarios con preguntas sobre nuestra empresa."&gt;
+&lt;/script&gt;</code></pre>
+  </div>
+  
+  <p>Puedes interactuar con el widget haciendo clic en el icono de chat en la esquina inferior derecha de la pantalla.</p>
+  
+  <h2>Personalización</h2>
+  <p>El widget puede personalizarse completamente para adaptarse a las necesidades de tu sitio web, incluyendo:</p>
+  <ul>
+    <li>Cambiar los colores y estilos</li>
+    <li>Modificar el prompt del sistema</li>
+    <li>Ajustar el comportamiento de la IA</li>
+  </ul>
+  
+  <!-- Script del widget de chat -->
+  <script 
+    src="/assets/ai-chat-widget.js" 
+    data-chat-widget 
+    data-auto-init="true" 
+    data-api-url="http://localhost:3001/api/chat"
+    data-system-prompt="Eres un asistente amigable que ayuda a los usuarios con preguntas sobre nuestra empresa. Debes ser conciso y útil.">
+  </script>
+</body>
+</html>

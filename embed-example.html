@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ejemplo de Integración del Widget de Chat</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1 {
+      color: #2563eb;
+      border-bottom: 2px solid #e5e7eb;
+      padding-bottom: 10px;
+    }
+    h2 {
+      color: #4b5563;
+      margin-top: 30px;
+    }
+    p {
+      margin-bottom: 16px;
+    }
+    .code-block {
+      background-color: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      padding: 15px;
+      margin: 20px 0;
+      overflow-x: auto;
+    }
+    .highlight {
+      background-color: #dbeafe;
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Integración del Widget de Chat con IA</h1>
+  
+  <p>Esta página muestra cómo integrar el widget de chat con IA en cualquier sitio web utilizando un único script.</p>
+  
+  <h2>Opción 1: Auto-inicialización</h2>
+  <div class="code-block">
+    <pre><code>&lt;script 
+  src="https://tu-dominio.com/assets/ai-chat-widget.js" 
+  data-chat-widget 
+  data-auto-init="true" 
+  data-api-url="https://tu-backend.com/api/chat"
+  data-system-prompt="Tu prompt personalizado aquí"&gt;
+&lt;/script&gt;</code></pre>
+  </div>
+  
+  <h2>Opción 2: Inicialización manual</h2>
+  <div class="code-block">
+    <pre><code>&lt;script src="https://tu-dominio.com/assets/ai-chat-widget.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  document.addEventListener('DOMContentLoaded', function() {
+    window.AIChatWidget.init({
+      apiUrl: 'https://tu-backend.com/api/chat',
+      systemPrompt: 'Tu prompt personalizado aquí'
+    });
+  });
+&lt;/script&gt;</code></pre>
+  </div>
+  
+  <h2>Opciones de Configuración</h2>
+  <ul>
+    <li><span class="highlight">data-api-url</span>: URL del endpoint de la API del backend</li>
+    <li><span class="highlight">data-system-prompt</span>: Prompt personalizado del sistema para la IA</li>
+    <li><span class="highlight">data-auto-init</span>: Si se establece en "true", el widget se inicializará automáticamente</li>
+  </ul>
+  
+  <h2>Personalización del Prompt</h2>
+  <p>El prompt del sistema permite personalizar el comportamiento de la IA según las necesidades específicas de cada sitio web. Por ejemplo:</p>
+  
+  <div class="code-block">
+    <pre><code>Eres un asistente virtual para una tienda de ropa. Tu objetivo es ayudar a los usuarios a encontrar productos, responder preguntas sobre tallas, materiales y políticas de devolución. Debes ser amable y profesional en todo momento.</code></pre>
+  </div>
+  
+  <h2>Extracción de Contexto</h2>
+  <p>El widget extrae automáticamente los encabezados (h1, h2) de la página para proporcionar contexto a la IA. Esto permite que las respuestas sean relevantes al contenido de la página.</p>
+  
+  <h2>Ejemplo en Vivo</h2>
+  <p>A continuación se muestra un ejemplo del widget integrado en esta página. Puedes interactuar con él haciendo clic en el icono de chat en la esquina inferior derecha.</p>
+  
+  <!-- Script del widget de chat (comentado para este ejemplo) -->
+  <!-- 
+  <script 
+    src="/frontend/chat-bot-v1/dist/assets/ai-chat-widget.js" 
+    data-chat-widget 
+    data-auto-init="true" 
+    data-api-url="http://localhost:3001/api/chat"
+    data-system-prompt="Eres un asistente amigable que ayuda a los usuarios a entender cómo integrar el widget de chat en sus sitios web. Debes ser conciso y útil.">
+  </script>
+  -->
+</body>
+</html>
