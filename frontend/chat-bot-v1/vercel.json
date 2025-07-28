@@ -1,15 +1,8 @@
 {
   "version": 2,
   "name": "chat-widget-app",
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
-    }
-  ],
+  "buildCommand": "npm run vercel-build",
+  "outputDirectory": "dist",
   "routes": [
     {
       "src": "/chat-widget.js",
@@ -19,7 +12,5 @@
       "src": "/(.*)",
       "dest": "/$1"
     }
-  ],
-  "functions": {},
-  "regions": ["iad1"]
+  ]
 }
