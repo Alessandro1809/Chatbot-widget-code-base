@@ -28,7 +28,6 @@ export const useChatApi = ({
     ConnectionStatus.CONNECTED
   );
   const [lastError, setLastError] = useState<ApiError | null>(null);
-  const [canOpenChat, setCanOpenChat] = useState(true);
   const [isInitialized, setIsInitialized] = useState(false);
   
   const conversationManager = useRef<ConversationManager | null>(null);
@@ -191,7 +190,6 @@ export const useChatApi = ({
   const forceReset = useCallback(() => {
     if (conversationManager.current) {
       conversationManager.current.forceReset();
-      setCanOpenChat(true);
     }
   }, []);
 

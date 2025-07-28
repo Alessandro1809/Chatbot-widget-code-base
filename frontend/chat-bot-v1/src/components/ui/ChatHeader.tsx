@@ -12,7 +12,6 @@ interface ChatHeaderProps {
   canCreateNewChat: boolean;
   creationBlocked: boolean;
   isMinimized: boolean;
-  showChatList: boolean;
   onToggleChatList: () => void;
   onToggleMinimize: () => void;
   onCreateNewChat: () => void;
@@ -31,7 +30,6 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({
   canCreateNewChat,
   creationBlocked,
   isMinimized,
-  showChatList,
   onToggleChatList,
   onToggleMinimize,
   onCreateNewChat,
