@@ -57,12 +57,9 @@ export class ChatWidgetEmbed {
     if (!container) {
       container = document.createElement('div');
       container.id = containerId;
+      // Aplicar las mismas clases que la app principal
+      container.className = 'fixed bottom-6 right-6 font-sans z-50';
       container.style.cssText = `
-        position: fixed;
-        bottom: 50px;
-        right: 50px;
-        width: auto;
-        height: auto;
         pointer-events: auto;
         z-index: 999999;
       `;
@@ -96,18 +93,29 @@ export class ChatWidgetEmbed {
     const styleElement = document.createElement('style');
     styleElement.id = styleId;
     styleElement.textContent = `
-      /* Reset básico para el widget */
+      /* Reset básico para el widget - Coincidir con la app principal */
       #${this.config.containerId || 'chat-widget-container'} {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif !important;
+        font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif !important;
         -webkit-font-smoothing: antialiased !important;
         -moz-osx-font-smoothing: grayscale !important;
         position: fixed !important;
         z-index: 999999 !important;
       }
 
-      /* Asegurar que las clases de Tailwind funcionen */
+      /* Asegurar que las clases de Tailwind funcionen correctamente */
       #${this.config.containerId || 'chat-widget-container'} * {
         box-sizing: border-box !important;
+      }
+
+      /* Estilos específicos para coincidir con la app principal */
+      #${this.config.containerId || 'chat-widget-container'} button {
+        font-family: inherit !important;
+      }
+
+      /* Asegurar que el panel de chat tenga el tamaño correcto */
+      #${this.config.containerId || 'chat-widget-container'} .chat-panel {
+        width: 24rem !important; /* w-96 = 384px = 24rem */
+        height: 32rem !important; /* h-[32rem] */
       }
     `;
     
