@@ -22,7 +22,7 @@ function App() {
       {/* Tu contenido de la aplicación */}
       
       {/* Widget de Chat con URL de API personalizada */}
-      <ChatWidget apiUrl="https://chatbot-widget-code-base.onrender.com/api/chat" />
+      <ChatWidget apiUrl={import.meta.env.VITE_API_URL} />
     </div>
   );
 }
@@ -32,7 +32,7 @@ function App() {
 
 | Prop | Tipo | Descripción | Valor por defecto |
 |------|------|-------------|-------------------|
-| apiUrl | string | URL del endpoint de la API de chat | 'https://chatbot-widget-code-base.onrender.com/api/chat' |
+| apiUrl | string | URL del endpoint de la API de chat | import.meta.env.VITE_API_URL |
 
 ## Funcionamiento
 

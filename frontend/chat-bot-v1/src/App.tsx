@@ -183,7 +183,7 @@ function App() {
       </main>
       
       {/* Widget de Chat */}
-      <ChatWidget apiUrl="https://chatbot-widget-code-base.onrender.com/api/chat" />
+      <ChatWidget apiUrl={import.meta.env.VITE_API_URL } />
     </div>
   );
 }

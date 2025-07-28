@@ -14,7 +14,7 @@ import ChatList from './ui/ChatList';
 import MessageInput from './ui/MessageInput';
 
 const ChatWidget: React.FC<ChatWidgetProps> = ({
-  apiUrl = 'https://chatbot-widget-code-base.onrender.com/api/chat',
+  apiUrl = import.meta.env.VITE_API_URL ,
   systemPrompt,
   websiteName,
   availableServices,
