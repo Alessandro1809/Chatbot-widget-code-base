@@ -22,7 +22,7 @@ function App() {
       {/* Tu contenido de la aplicación */}
       
       {/* Widget de Chat con URL de API personalizada */}
-      <ChatWidget apiUrl="http://localhost:3001/api/chat" />
+      <ChatWidget apiUrl="https://chatbot-widget-code-base.onrender.com/api/chat" />
     </div>
   );
 }
@@ -32,7 +32,7 @@ function App() {
 
 | Prop | Tipo | Descripción | Valor por defecto |
 |------|------|-------------|-------------------|
-| apiUrl | string | URL del endpoint de la API de chat | 'http://localhost:3001/api/chat' |
+| apiUrl | string | URL del endpoint de la API de chat | 'https://chatbot-widget-code-base.onrender.com/api/chat' |
 
 ## Funcionamiento
 

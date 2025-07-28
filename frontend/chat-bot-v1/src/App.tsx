@@ -183,7 +183,7 @@ function App() {
       </main>
       
       {/* Widget de Chat */}
-      <ChatWidget apiUrl="http://localhost:3001/api/chat" />
+      <ChatWidget apiUrl="https://chatbot-widget-code-base.onrender.com/api/chat" />
     </div>
   );
 }
