@@ -1,4 +1,5 @@
 import { initializeGlobalAPI } from './EmbedWrapper';
+import './embed.css';
 
 // Inicializar la API global cuando se carga el script
 initializeGlobalAPI();
