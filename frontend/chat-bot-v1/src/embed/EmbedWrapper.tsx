@@ -57,8 +57,8 @@ export class ChatWidgetEmbed {
     if (!container) {
       container = document.createElement('div');
       container.id = containerId;
-      // Aplicar las mismas clases que la app principal
-      container.className = 'fixed bottom-6 right-6 font-sans z-50';
+      // Usar exactamente las mismas clases Tailwind que la app principal
+      container.className = 'fixed bottom-6 right-6 font-sans antialiased z-50';
       container.style.cssText = `
         pointer-events: auto;
         z-index: 999999;
@@ -67,59 +67,6 @@ export class ChatWidgetEmbed {
     }
     
     return container;
-  }
-
-  private loadExternalCSS(): void {
-    const cssId = 'chat-widget-external-css';
-    if (document.getElementById(cssId)) {
-      return; // CSS ya cargado
-    }
-
-    const link = document.createElement('link');
-    link.id = cssId;
-    link.rel = 'stylesheet';
-    link.type = 'text/css';
-    link.href = 'https://chatbot-widget-nous-v1.vercel.app/chat-widget.css';
-    link.media = 'all';
-    document.head.appendChild(link);
-  }
-
-  private injectStyles(): void {
-    const styleId = 'chat-widget-styles';
-    if (document.getElementById(styleId)) {
-      return; // Estilos ya inyectados
-    }
-
-    const styleElement = document.createElement('style');
-    styleElement.id = styleId;
-    styleElement.textContent = `
-      /* Reset básico para el widget - Coincidir con la app principal */
-      #${this.config.containerId || 'chat-widget-container'} {
-        font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif !important;
-        -webkit-font-smoothing: antialiased !important;
-        -moz-osx-font-smoothing: grayscale !important;
-        position: fixed !important;
-        z-index: 999999 !important;
-      }
-
-      /* Asegurar que las clases de Tailwind funcionen correctamente */
-      #${this.config.containerId || 'chat-widget-container'} * {
-        box-sizing: border-box !important;
-      }
-
-      /* Estilos específicos para coincidir con la app principal */
-      #${this.config.containerId || 'chat-widget-container'} button {
-        font-family: inherit !important;
-      }
-
-      /* Asegurar que el panel de chat tenga el tamaño correcto */
-      #${this.config.containerId || 'chat-widget-container'} .chat-panel {
-        width: 24rem !important; /* w-96 = 384px = 24rem */
-        height: 32rem !important; /* h-[32rem] */
-      }
-    `;
-    
-    document.head.appendChild(styleElement);
   }
 
   public init(): void {
@@ -137,8 +84,6 @@ export class ChatWidgetEmbed {
 
   private mount(): void {
     try {
-      this.loadExternalCSS();
-      this.injectStyles();
       this.container = this.createContainer();
       
       // Crear el root de React 18+
