@@ -59,8 +59,8 @@ export class ChatWidgetEmbed {
       container.id = containerId;
       container.style.cssText = `
         position: fixed;
-        top: 90;
-        left: 90;
+        bottom: 90;
+        right: 90;
         width: 100%;
         height: 100%;
         pointer-events: none;
