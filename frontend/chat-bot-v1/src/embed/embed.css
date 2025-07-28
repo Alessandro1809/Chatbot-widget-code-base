@@ -1,28 +1,79 @@
-/* Estilos base para el widget embebido - CSS personalizado sin Tailwind */
-
+/* Estilos exactos para coincidir con la aplicación principal */
 /* Reset específico para el widget para evitar conflictos con el sitio host */
 #chat-widget-container,
 #chat-widget-container * {
   box-sizing: border-box !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  border: 0 !important;
-  font-size: 14px !important;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif !important;
-  vertical-align: baseline !important;
-  line-height: 1.5 !important;
 }
 
-/* Contenedor principal del widget */
+/* Contenedor principal del widget - Exacto como la app principal */
 #chat-widget-container {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif !important;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
   -webkit-font-smoothing: antialiased !important;
   -moz-osx-font-smoothing: grayscale !important;
-  color: #374151 !important;
   position: fixed !important;
-  bottom: 20px !important;
-  right: 20px !important;
-  z-index: 999999 !important;
+  bottom: 1.5rem !important; /* bottom-6 */
+  right: 1.5rem !important; /* right-6 */
+  z-index: 50 !important; /* z-50 */
+}
+
+/* Botón flotante - Exacto como FloatingButton.tsx */
+#chat-widget-container button {
+  position: relative !important;
+  border-radius: 9999px !important; /* rounded-full */
+  width: 3.5rem !important; /* w-14 */
+  height: 3.5rem !important; /* h-14 */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important; /* shadow-lg */
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter !important;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition-duration: 300ms !important;
+  transform: scale(1) !important;
+  background: linear-gradient(to right, #3b82f6, #2563eb) !important; /* bg-gradient-to-r from-blue-500 to-blue-600 */
+  color: white !important;
+  border: none !important;
+  cursor: pointer !important;
+}
+
+#chat-widget-container button:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important; /* hover:shadow-xl */
+  transform: scale(1.05) !important; /* hover:scale-105 */
+  background: linear-gradient(to right, #2563eb, #1d4ed8) !important; /* hover:from-blue-600 hover:to-blue-700 */
+}
+
+#chat-widget-container button svg {
+  width: 1.5rem !important; /* w-6 */
+  height: 1.5rem !important; /* h-6 */
+  transition-property: transform !important;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition-duration: 150ms !important;
+}
+
+#chat-widget-container button:hover svg {
+  transform: scale(1.1) !important; /* group-hover:scale-110 */
+}
+
+/* Panel de chat - Exacto como ChatWidget.tsx */
+#chat-widget-container .chat-panel {
+  width: 24rem !important; /* w-96 */
+  background-color: white !important; /* bg-white */
+  border: 1px solid #e5e7eb !important; /* border border-gray-200 */
+  border-radius: 1rem !important; /* rounded-2xl */
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important; /* shadow-2xl */
+  display: flex !important;
+  flex-direction: column !important;
+  margin-top: 0.5rem !important; /* mt-2 */
+  overflow: hidden !important;
+  transition-property: all !important;
+  transition-duration: 300ms !important;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transform: scale(1) !important;
+  height: 32rem !important; /* h-[32rem] */
+}
+
+#chat-widget-container .chat-panel.minimized {
+  height: 4rem !important; /* h-16 */
 }
 
 /* Utility Classes - Reemplazando Tailwind */
