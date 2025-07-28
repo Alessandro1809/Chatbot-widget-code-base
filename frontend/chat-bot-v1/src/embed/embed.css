@@ -1,3 +1,201 @@
-@import "tailwindcss";
+/* Embedded Widget Styles - Tailwind CSS v4 Compatible */
+/* Base reset for widget isolation */
+#chat-widget-container,
+#chat-widget-container * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Container positioning - exactly matching main app */
+#chat-widget-container {
+  position: fixed;
+  bottom: 1.5rem; /* bottom-6 */
+  right: 1.5rem; /* right-6 */
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  z-index: 50;
+  pointer-events: auto;
+}
+
+/* Essential Tailwind utilities used by the widget */
+#chat-widget-container .fixed { position: fixed; }
+#chat-widget-container .relative { position: relative; }
+#chat-widget-container .absolute { position: absolute; }
+#chat-widget-container .flex { display: flex; }
+#chat-widget-container .hidden { display: none; }
+#chat-widget-container .flex-col { flex-direction: column; }
+#chat-widget-container .items-center { align-items: center; }
+#chat-widget-container .justify-center { justify-content: center; }
+#chat-widget-container .justify-between { justify-content: space-between; }
+#chat-widget-container .justify-end { justify-content: flex-end; }
+#chat-widget-container .flex-1 { flex: 1 1 0%; }
+
+/* Sizing utilities */
+#chat-widget-container .w-4 { width: 1rem; }
+#chat-widget-container .w-5 { width: 1.25rem; }
+#chat-widget-container .w-6 { width: 1.5rem; }
+#chat-widget-container .w-8 { width: 2rem; }
+#chat-widget-container .w-14 { width: 3.5rem; }
+#chat-widget-container .w-96 { width: 24rem; }
+#chat-widget-container .w-full { width: 100%; }
+#chat-widget-container .h-2 { height: 0.5rem; }
+#chat-widget-container .h-4 { height: 1rem; }
+#chat-widget-container .h-6 { height: 1.5rem; }
+#chat-widget-container .h-8 { height: 2rem; }
+#chat-widget-container .h-14 { width: 3.5rem; }
+#chat-widget-container .h-16 { height: 4rem; }
+#chat-widget-container .h-\[32rem\] { height: 32rem; }
+#chat-widget-container .max-w-\[80\%\] { max-width: 80%; }
+
+/* Spacing utilities */
+#chat-widget-container .p-1\.5 { padding: 0.375rem; }
+#chat-widget-container .p-3 { padding: 0.75rem; }
+#chat-widget-container .p-4 { padding: 1rem; }
+#chat-widget-container .px-4 { padding-left: 1rem; padding-right: 1rem; }
+#chat-widget-container .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+#chat-widget-container .mt-1 { margin-top: 0.25rem; }
+#chat-widget-container .mt-2 { margin-top: 0.5rem; }
+#chat-widget-container .mb-4 { margin-bottom: 1rem; }
+#chat-widget-container .gap-1 { gap: 0.25rem; }
+#chat-widget-container .gap-2 { gap: 0.5rem; }
+#chat-widget-container .gap-3 { gap: 0.75rem; }
+#chat-widget-container .space-x-1 > * + * { margin-left: 0.25rem; }
+#chat-widget-container .space-x-2 > * + * { margin-left: 0.5rem; }
+#chat-widget-container .space-x-3 > * + * { margin-left: 0.75rem; }
+
+/* Positioning utilities */
+#chat-widget-container .-top-1 { top: -0.25rem; }
+#chat-widget-container .-top-2 { top: -0.5rem; }
+#chat-widget-container .-right-1 { right: -0.25rem; }
+#chat-widget-container .-left-2 { left: -0.5rem; }
+
+/* Border radius */
+#chat-widget-container .rounded-md { border-radius: 0.375rem; }
+#chat-widget-container .rounded-lg { border-radius: 0.5rem; }
+#chat-widget-container .rounded-2xl { border-radius: 1rem; }
+#chat-widget-container .rounded-full { border-radius: 9999px; }
+#chat-widget-container .rounded-br-md { border-bottom-right-radius: 0.375rem; }
+#chat-widget-container .rounded-bl-md { border-bottom-left-radius: 0.375rem; }
+#chat-widget-container .rounded-t-2xl { border-top-left-radius: 1rem; border-top-right-radius: 1rem; }
+
+/* Colors */
+#chat-widget-container .bg-white { background-color: rgb(255 255 255); }
+#chat-widget-container .bg-gray-50 { background-color: rgb(249 250 251); }
+#chat-widget-container .bg-gray-200 { background-color: rgb(229 231 235); }
+#chat-widget-container .bg-gray-400 { background-color: rgb(156 163 175); }
+#chat-widget-container .bg-green-400 { background-color: rgb(74 222 128); }
+#chat-widget-container .bg-green-500 { background-color: rgb(34 197 94); }
+#chat-widget-container .bg-yellow-400 { background-color: rgb(250 204 21); }
+#chat-widget-container .bg-yellow-500 { background-color: rgb(234 179 8); }
+#chat-widget-container .bg-red-400 { background-color: rgb(248 113 113); }
+#chat-widget-container .bg-red-500 { background-color: rgb(239 68 68); }
+#chat-widget-container .bg-blue-500 { background-color: rgb(59 130 246); }
+#chat-widget-container .bg-blue-100 { background-color: rgb(219 234 254); }
+#chat-widget-container .bg-amber-50 { background-color: rgb(255 251 235); }
+#chat-widget-container .bg-orange-50 { background-color: rgb(255 247 237); }
+#chat-widget-container .bg-red-50 { background-color: rgb(254 242 242); }
+
+/* Gradients */
+#chat-widget-container .bg-gradient-to-r { background-image: linear-gradient(to right, var(--tw-gradient-stops)); }
+#chat-widget-container .bg-gradient-to-b { background-image: linear-gradient(to bottom, var(--tw-gradient-stops)); }
+#chat-widget-container .from-blue-500 { --tw-gradient-from: rgb(59 130 246); --tw-gradient-to: rgb(59 130 246 / 0); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to); }
+#chat-widget-container .to-blue-600 { --tw-gradient-to: rgb(37 99 235); }
+#chat-widget-container .from-blue-600 { --tw-gradient-from: rgb(37 99 235); --tw-gradient-to: rgb(37 99 235 / 0); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to); }
+#chat-widget-container .to-blue-700 { --tw-gradient-to: rgb(29 78 216); }
+#chat-widget-container .from-gray-50 { --tw-gradient-from: rgb(249 250 251); --tw-gradient-to: rgb(249 250 251 / 0); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to); }
+#chat-widget-container .to-white { --tw-gradient-to: rgb(255 255 255); }
+
+/* Text colors */
+#chat-widget-container .text-white { color: rgb(255 255 255); }
+#chat-widget-container .text-gray-400 { color: rgb(156 163 175); }
+#chat-widget-container .text-gray-500 { color: rgb(107 114 128); }
+#chat-widget-container .text-gray-800 { color: rgb(31 41 55); }
+#chat-widget-container .text-blue-100 { color: rgb(219 234 254); }
+#chat-widget-container .text-amber-800 { color: rgb(146 64 14); }
+#chat-widget-container .text-orange-800 { color: rgb(194 65 12); }
+#chat-widget-container .text-red-800 { color: rgb(153 27 27); }
+
+/* Border */
+#chat-widget-container .border { border-width: 1px; }
+#chat-widget-container .border-2 { border-width: 2px; }
+#chat-widget-container .border-t { border-top-width: 1px; }
+#chat-widget-container .border-white { border-color: rgb(255 255 255); }
+#chat-widget-container .border-gray-200 { border-color: rgb(229 231 235); }
+#chat-widget-container .border-gray-300 { border-color: rgb(209 213 219); }
+#chat-widget-container .border-amber-200 { border-color: rgb(253 230 138); }
+#chat-widget-container .border-orange-200 { border-color: rgb(254 215 170); }
+#chat-widget-container .border-red-200 { border-color: rgb(254 202 202); }
+
+/* Shadows */
+#chat-widget-container .shadow-sm { box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); }
+#chat-widget-container .shadow-lg { box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); }
+#chat-widget-container .shadow-xl { box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); }
+#chat-widget-container .shadow-2xl { box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25); }
+
+/* Text sizing */
+#chat-widget-container .text-xs { font-size: 0.75rem; line-height: 1rem; }
+#chat-widget-container .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+#chat-widget-container .font-semibold { font-weight: 600; }
+#chat-widget-container .font-bold { font-weight: 700; }
+#chat-widget-container .leading-relaxed { line-height: 1.625; }
+
+/* Overflow */
+#chat-widget-container .overflow-hidden { overflow: hidden; }
+#chat-widget-container .overflow-auto { overflow: auto; }
+
+/* Opacity */
+#chat-widget-container .opacity-90 { opacity: 0.9; }
+
+/* Transitions */
+#chat-widget-container .transition { transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+#chat-widget-container .transition-all { transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+#chat-widget-container .duration-200 { transition-duration: 200ms; }
+#chat-widget-container .duration-300 { transition-duration: 300ms; }
+
+/* Transforms */
+#chat-widget-container .scale-105 { transform: scale(1.05); }
+#chat-widget-container .scale-110 { transform: scale(1.1); }
+
+/* Hover states */
+#chat-widget-container .hover\:shadow-xl:hover { box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); }
+#chat-widget-container .hover\:scale-105:hover { transform: scale(1.05); }
+#chat-widget-container .hover\:bg-white:hover { background-color: rgb(255 255 255); }
+#chat-widget-container .hover\:bg-opacity-20:hover { background-color: rgb(255 255 255 / 0.2); }
+#chat-widget-container .group:hover .group-hover\:scale-110 { transform: scale(1.1); }
+
+/* Focus states */
+#chat-widget-container .focus\:outline-none:focus { outline: 2px solid transparent; outline-offset: 2px; }
+#chat-widget-container .focus\:ring-2:focus { box-shadow: 0 0 0 2px rgb(59 130 246 / 0.5); }
+#chat-widget-container .focus\:border-transparent:focus { border-color: transparent; }
+
+/* Disabled states */
+#chat-widget-container .disabled\:bg-gray-100:disabled { background-color: rgb(243 244 246); }
+#chat-widget-container .disabled\:cursor-not-allowed:disabled { cursor: not-allowed; }
+
+/* Cursor */
+#chat-widget-container .cursor-pointer { cursor: pointer; }
+#chat-widget-container .cursor-not-allowed { cursor: not-allowed; }
+
+/* Animations */
+#chat-widget-container .animate-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes bounce {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1); }
+}
+
+#chat-widget-container .animate-bounce { animation: bounce 1.4s infinite ease-in-out both; }
+
+/* Custom animations for typing dots */
+#chat-widget-container .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+#chat-widget-container .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+#chat-widget-container .typing-dot:nth-child(3) { animation-delay: 0s; }
 
 
