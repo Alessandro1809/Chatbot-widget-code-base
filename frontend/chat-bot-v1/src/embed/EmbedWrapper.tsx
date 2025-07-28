@@ -58,9 +58,9 @@ export class ChatWidgetEmbed {
       container = document.createElement('div');
       container.id = containerId;
       container.style.cssText = `
-        position: absolute;
+        position: fixed;
         bottom: 50px;
-        right: 20px;
+        right: 50px;
         width: auto;
         height: auto;
         pointer-events: auto;
