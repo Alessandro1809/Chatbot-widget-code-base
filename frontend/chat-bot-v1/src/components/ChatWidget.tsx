@@ -14,7 +14,7 @@ import ChatList from './ui/ChatList';
 import MessageInput from './ui/MessageInput';
 
 const ChatWidget: React.FC<ChatWidgetProps> = ({
-  apiUrl = import.meta.env.VITE_API_URL ,
+  apiUrl = import.meta.env.VITE_API_URL,
   systemPrompt,
   websiteName,
   availableServices,
