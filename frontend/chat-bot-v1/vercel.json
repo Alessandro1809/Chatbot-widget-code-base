@@ -9,6 +9,10 @@
       "dest": "/embed/chat-widget.js"
     },
     {
+      "src": "/chat-widget.css",
+      "dest": "/embed/chat-widget.css"
+    },
+    {
       "src": "/(.*)",
       "dest": "/$1"
     }
