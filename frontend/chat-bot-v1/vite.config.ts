@@ -6,22 +6,14 @@ import react from '@vitejs/plugin-react-swc'
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   build: {
+    // Configuración optimizada para la aplicación principal
     rollupOptions: {
-      input: {
-        main: './index.html',
-        embed: './src/embed.tsx'
-      },
       output: {
-        // Configuración para el script embebido
-        entryFileNames: (chunkInfo) => {
-          return chunkInfo.name === 'embed' 
-            ? 'assets/ai-chat-widget.js' 
-            : 'assets/[name]-[hash].js';
-        },
-        manualChunks: undefined
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          utils: ['axios']
+        }
       }
-    },
-    // Asegurarse de que el CSS se incluya en el bundle de JavaScript
-    cssCodeSplit: false
+    }
   }
 })

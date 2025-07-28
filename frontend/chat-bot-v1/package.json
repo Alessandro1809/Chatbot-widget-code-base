@@ -6,10 +6,13 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "build:widget": "tsc -b && vite build --config vite.config.ts",
+    "build:widget": "webpack --config webpack.embed.config.js",
+    "build:widget:dev": "webpack --config webpack.embed.config.js --mode development",
     "build:embed": "webpack --config webpack.embed.config.js",
     "build:embed:dev": "webpack --config webpack.embed.config.js --mode development",
-    "build:all": "npm run build && npm run build:embed",
+    "build:all": "npm run build && npm run build:widget",
+    "vercel-build": "npm run build:all",
+    "serve:widget": "npm run build:widget:dev && python -m http.server 8080 --directory dist/embed",
     "lint": "eslint .",
     "preview": "vite preview"
   },
