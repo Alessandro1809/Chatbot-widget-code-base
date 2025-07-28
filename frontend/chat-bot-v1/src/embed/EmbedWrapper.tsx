@@ -59,11 +59,11 @@ export class ChatWidgetEmbed {
       container.id = containerId;
       container.style.cssText = `
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
+        bottom: 20px;
+        right: 20px;
+        width: auto;
+        height: auto;
+        pointer-events: auto;
         z-index: 999999;
       `;
       document.body.appendChild(container);
@@ -83,15 +83,84 @@ export class ChatWidgetEmbed {
     styleElement.textContent = `
       /* Reset básico para el widget */
       #${this.config.containerId || 'chat-widget-container'} * {
-        box-sizing: border-box;
+        box-sizing: border-box !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif !important;
+        font-size: 14px !important;
+        line-height: 1.5 !important;
       }
       
-      /* Asegurar que el widget no interfiera con el sitio host */
+      /* Contenedor principal del widget */
       #${this.config.containerId || 'chat-widget-container'} {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif !important;
+        -webkit-font-smoothing: antialiased !important;
+        -moz-osx-font-smoothing: grayscale !important;
+        color: #374151 !important;
+        position: fixed !important;
+        bottom: 20px !important;
+        right: 20px !important;
+        z-index: 999999 !important;
+        width: auto !important;
+        height: auto !important;
       }
+
+      /* Estilos básicos para elementos del widget */
+      #${this.config.containerId || 'chat-widget-container'} button {
+        background: #3B82F6 !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 50% !important;
+        width: 60px !important;
+        height: 60px !important;
+        cursor: pointer !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+        transition: all 0.3s ease !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 24px !important;
+      }
+
+      #${this.config.containerId || 'chat-widget-container'} button:hover {
+        transform: scale(1.05) !important;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2) !important;
+      }
+
+      /* Panel del chat */
+      #${this.config.containerId || 'chat-widget-container'} .chat-panel {
+        position: absolute !important;
+        bottom: 80px !important;
+        right: 0 !important;
+        width: 350px !important;
+        height: 500px !important;
+        background: white !important;
+        border-radius: 12px !important;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
+        display: none !important;
+        flex-direction: column !important;
+      }
+
+      #${this.config.containerId || 'chat-widget-container'} .chat-panel.open {
+        display: flex !important;
+      }
+
+      /* Utility classes */
+      #${this.config.containerId || 'chat-widget-container'} .fixed { position: fixed !important; }
+      #${this.config.containerId || 'chat-widget-container'} .bottom-0 { bottom: 0 !important; }
+      #${this.config.containerId || 'chat-widget-container'} .right-0 { right: 0 !important; }
+      #${this.config.containerId || 'chat-widget-container'} .flex { display: flex !important; }
+      #${this.config.containerId || 'chat-widget-container'} .items-center { align-items: center !important; }
+      #${this.config.containerId || 'chat-widget-container'} .justify-center { justify-content: center !important; }
+      #${this.config.containerId || 'chat-widget-container'} .w-full { width: 100% !important; }
+      #${this.config.containerId || 'chat-widget-container'} .h-full { height: 100% !important; }
+      #${this.config.containerId || 'chat-widget-container'} .bg-white { background-color: #ffffff !important; }
+      #${this.config.containerId || 'chat-widget-container'} .text-white { color: #ffffff !important; }
+      #${this.config.containerId || 'chat-widget-container'} .rounded-lg { border-radius: 0.5rem !important; }
+      #${this.config.containerId || 'chat-widget-container'} .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important; }
+      #${this.config.containerId || 'chat-widget-container'} .p-4 { padding: 1rem !important; }
+      #${this.config.containerId || 'chat-widget-container'} .hidden { display: none !important; }
+      #${this.config.containerId || 'chat-widget-container'} .block { display: block !important; }
     `;
     
     document.head.appendChild(styleElement);
