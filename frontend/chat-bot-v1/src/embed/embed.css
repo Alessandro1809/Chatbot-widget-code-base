@@ -14,9 +14,9 @@
   -webkit-font-smoothing: antialiased !important;
   -moz-osx-font-smoothing: grayscale !important;
   position: fixed !important;
-  bottom: 1.5rem !important; /* bottom-6 */
-  right: 1.5rem !important; /* right-6 */
-  z-index: 50 !important; /* z-50 */
+  bottom: 24px !important; /* bottom-6 = 1.5rem = 24px EXACTO */
+  right: 24px !important; /* right-6 = 1.5rem = 24px EXACTO */
+  z-index: 50 !important; /* z-50 EXACTO */
 }
 
 /* ===== FLOATING BUTTON - EXACTO COMO FloatingButton.tsx ===== */
@@ -27,26 +27,28 @@
 #chat-widget-container .floating-button {
   position: relative !important;
   border-radius: 9999px !important; /* rounded-full */
-  width: 3.5rem !important; /* w-14 */
-  height: 3.5rem !important; /* h-14 */
+  width: 56px !important; /* w-14 = 3.5rem = 56px */
+  height: 56px !important; /* h-14 = 3.5rem = 56px */
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important; /* shadow-lg */
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1) !important; /* shadow-lg exacto */
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter !important;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
-  transition-duration: 300ms !important;
+  transition-duration: 0.15s !important;
   transform: scale(1) !important;
-  background: linear-gradient(to right, #3b82f6, #2563eb) !important; /* from-blue-500 to-blue-600 */
-  color: white !important;
-  border: none !important;
+  /* EXACTO: bg-gradient-to-r from-blue-500 to-blue-600 */
+  background-image: linear-gradient(to right, rgb(59 130 246), rgb(37 99 235)) !important;
+  color: rgb(255 255 255) !important; /* text-white exacto */
+  border: 0 solid rgb(229 231 235) !important; /* border-0 exacto */
   cursor: pointer !important;
 }
 
 #chat-widget-container .floating-button:hover {
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important; /* hover:shadow-xl */
-  transform: scale(1.05) !important; /* hover:scale-105 */
-  background: linear-gradient(to right, #2563eb, #1d4ed8) !important; /* hover:from-blue-600 hover:to-blue-700 */
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1) !important; /* hover:shadow-xl exacto */
+  transform: scale(1.05) !important; /* hover:scale-105 exacto */
+  /* EXACTO: hover:from-blue-600 hover:to-blue-700 */
+  background-image: linear-gradient(to right, rgb(37 99 235), rgb(29 78 216)) !important;
 }
 
 #chat-widget-container .floating-button svg {
@@ -111,33 +113,34 @@
 
 /* ===== PANEL DE CHAT - EXACTO COMO ChatWidget.tsx ===== */
 #chat-widget-container .chat-panel {
-  width: 24rem !important; /* w-96 */
-  background-color: white !important; /* bg-white */
-  border: 1px solid #e5e7eb !important; /* border border-gray-200 */
-  border-radius: 1rem !important; /* rounded-2xl */
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important; /* shadow-2xl */
+  width: 384px !important; /* w-96 = 24rem = 384px EXACTO */
+  background-color: rgb(255 255 255) !important; /* bg-white EXACTO */
+  border: 1px solid rgb(229 231 235) !important; /* border-gray-200 EXACTO */
+  border-radius: 16px !important; /* rounded-2xl = 1rem = 16px EXACTO */
+  box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25) !important; /* shadow-2xl EXACTO */
   display: flex !important;
   flex-direction: column !important;
-  margin-top: 0.5rem !important; /* mt-2 */
+  margin-top: 8px !important; /* mt-2 = 0.5rem = 8px EXACTO */
   overflow: hidden !important;
   transition-property: all !important;
   transition-duration: 300ms !important;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
   transform: scale(1) !important;
-  height: 32rem !important; /* h-[32rem] */
+  height: 512px !important; /* h-[32rem] = 32rem = 512px EXACTO */
 }
 
 #chat-widget-container .chat-panel.minimized {
-  height: 4rem !important; /* h-16 */
+  height: 64px !important; /* h-16 = 4rem = 64px EXACTO */
 }
 
 /* ===== CHAT HEADER - EXACTO COMO ChatHeader.tsx ===== */
 #chat-widget-container .chat-header {
-  background: linear-gradient(to right, #3b82f6, #2563eb) !important; /* bg-gradient-to-r from-blue-500 to-blue-600 */
-  color: white !important;
-  padding: 1rem !important; /* p-4 */
-  border-top-left-radius: 1rem !important; /* rounded-t-2xl */
-  border-top-right-radius: 1rem !important;
+  /* EXACTO: bg-gradient-to-r from-blue-500 to-blue-600 */
+  background-image: linear-gradient(to right, rgb(59 130 246), rgb(37 99 235)) !important;
+  color: rgb(255 255 255) !important; /* text-white EXACTO */
+  padding: 16px !important; /* p-4 = 1rem = 16px EXACTO */
+  border-top-left-radius: 16px !important; /* rounded-t-2xl = 1rem = 16px EXACTO */
+  border-top-right-radius: 16px !important;
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
