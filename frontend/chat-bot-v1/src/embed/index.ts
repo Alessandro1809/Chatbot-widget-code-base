@@ -50,3 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
 // Exportar tipos para TypeScript
 export type { EmbedConfig } from './EmbedWrapper';
 export { ChatWidgetEmbed } from './EmbedWrapper';
+
+// Exportar el objeto ChatWidget para webpack UMD
+export default window.ChatWidget;
