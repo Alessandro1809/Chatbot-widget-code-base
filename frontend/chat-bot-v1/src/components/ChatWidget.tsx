@@ -224,7 +224,6 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({
             canCreateNewChat={securityStatus.canCreateNow}
             creationBlocked={creationBlock.isBlocked}
             isMinimized={isMinimized}
-            showChatList={showChatList}
             onToggleChatList={() => setShowChatList(!showChatList)}
             onToggleMinimize={() => setIsMinimized(!isMinimized)}
             onCreateNewChat={createNewChat}
